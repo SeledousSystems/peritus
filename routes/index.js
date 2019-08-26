@@ -1,9 +1,15 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+// Require our controller.
+var CPDObject_controller = require('../controllers/CPDObjectController');
+
+
+// GET home page.
+// router.get('/', function(req, res) {
+//   res.redirect('/catalog');
+// });
+
+router.get('/', CPDObject_controller.index);
 
 module.exports = router;

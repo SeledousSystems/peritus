@@ -37,4 +37,4 @@ var CPDPObjectSchema = new Schema({
 
 
 //Export model
-module.exports = mongoose.model('CPDObject', CPDObjectSchema);
+module.exports = mongoose.model('CPDObject', CPDPObjectSchema);

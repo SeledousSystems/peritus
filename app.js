@@ -11,14 +11,14 @@ var app = express();
 
 //setup persistance MongoDB connection host on cloud ATLAS
 var mongoose = require('mongoose');
-var MongoDB = 'mongodb+srv://pauljwright:<password>@cluster0-ohlaj.mongodb.net/peritus?retryWrites=true&w=majority'
+var MongoDB = 'mongodb+srv://pauljwright:oWLEy5aCOjoGTY4Y@cluster0-ohlaj.mongodb.net/peritus?retryWrites=true&w=majority'
 mongoose.connect(MongoDB, { useNewUrlParser: true});
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'pug');
 
 app.use(logger('dev'));
 app.use(express.json());

@@ -1,0 +1,17 @@
+extends layout
+
+block content
+  h1= title
+  h2 Your CPD Manager
+  p #{data}
+
+  if error
+    p Error getting your CPD data, please login and refresh. 
+  else
+    if data==null
+      p you have no CPD Activity, create an activity to get started. 
+    else
+      each cpdObject in data
+        li
+          a(href=cpdObject.url) #{cpdObject.title}
+
