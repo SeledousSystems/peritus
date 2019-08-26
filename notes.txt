@@ -1,0 +1,8 @@
+# start the app here
+SET DEBUG=express-locallibrary-tutorial:* & npm run devstart
+
+# cloudatlas credentials
+pauljwright80@gmail.com || oWLEy5aCOjoGTY4Y
+
+# cloudatlas connection
+mongodb+srv://pauljwright:<password>@cluster0-ohlaj.mongodb.net/peritus?retryWrites=true&w=majority
