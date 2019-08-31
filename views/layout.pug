@@ -15,15 +15,29 @@ html(lang='en')
           block sidebar
             ul(class='sidebar-nav')
               li 
-                a(href='/catalog') Home
+                a(href='/') Home
               li 
-                a(href='/catalog/books') Create New CPD Activity
+                a(href='/createCPD') Create New CPD Activity
 
                 hr
               li 
-                a(href='/catalog/about') About
+                a(href='/about') About
               li 
-                a(href='/catalog/book/twaves') What is T-WAVES
+                a(href='/twaves') What is T-WAVES?
+
+              hr
+              if user 
+                p User: #{user}
+              else 
+                form(method='POST' action='')
+                  div.form-group
+                    label(for='user email') User:
+                    input#title.form-control(type='text' placeholder='User Email' name='UserEmail' required='true' )
+                  button.btn.btn-primary(type='submit') login
+                if errors 
+                  ul
+                    for error in errors
+                      li!= error.msg
 
         div(class='col-sm-10')
           block content

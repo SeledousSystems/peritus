@@ -3,15 +3,16 @@ extends layout
 block content
   h1= title
   h2 Your CPD Manager
-  p #{data}
+  p #{CPD_list}
 
   if error
     p Error getting your CPD data, please login and refresh. 
   else
-    if data==null
-      p you have no CPD Activity, create an activity to get started. 
-    else
-      each cpdObject in data
+    if CPD_list
+      each cpdObject in CPD_list
         li
           a(href=cpdObject.url) #{cpdObject.title}
+    else
+      p You have no CPD Activity, create an activity to get started. 
+
 

@@ -1,0 +1,41 @@
+extends layout
+
+block content
+  h1= title
+  h2 Your CPD Manager
+  p Modify CPD Activity: 
+
+  form(method='POST' action='')
+      div.form-group
+        label(for='title') CPD Activity:
+        input#title.form-control(type='text' placeholder='Enter Title' name='title' required='true') 
+      div.form-group 
+        label(for='twaves') T-WAVES Type:
+        select#status.form-control(type='select' placeholder='Select status' name='twaves' required='true')
+          option(value='Training') Training
+          option(value='Work') Work
+          option(value='Accademic_Study') Accademic Study
+          option(value='Volunteer') Volunteer
+          option(value='Events') Events
+          option(value='Self_Study') Self Study
+      div.form-group
+        label(for='date_started') Date Commenced:
+        input#due_back.form-control(type='date' name='date_commenced' required='true')
+      div.form-group
+        label(for='date_started') Date Completed:
+        input#due_back.form-control(type='date' name='date_completed')
+      div.form-group
+        label(for='status') Status:
+        select#status.form-control(type='select' placeholder='Select status' name='status' required='true')
+          option(value='In-planning') In planning
+          option(value='In-work') In work
+          option(value='On Hold') On Hold
+          option(value='Complete') Complete
+      button.btn.btn-primary(type='submit') Create CPD Activity
+
+      if errors 
+        ul
+          for error in errors
+            li!= error.msg
+
+
