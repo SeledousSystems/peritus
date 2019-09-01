@@ -16,8 +16,9 @@ html(lang='en')
             ul(class='sidebar-nav')
               li 
                 a(href='/') Home
-              li 
-                a(href='/createCPD') Create New CPD Activity
+              if user
+                li   
+                  a(href='/createCPD') Create New CPD Activity
 
                 hr
               li 
@@ -29,6 +30,7 @@ html(lang='en')
               if user 
                 p User: #{user}
               else 
+                a(href='/createUser') Create Peretus Account
                 form(method='POST' action='')
                   div.form-group
                     label(for='user email') User:

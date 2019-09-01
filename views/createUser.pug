@@ -1,0 +1,28 @@
+extends layout
+
+block content
+  h1= title
+  h2 Your CPD Manager
+  p Create a Peretus account
+
+  form(method='POST' action='')
+    div.form-group
+      label(for='email') Email:
+      input#title.form-control(type='text' placeholder='email' name='email' required='true') 
+    div.form-group
+      label(for='fname') First Name:
+      input#title.form-control(type='text' placeholder='fname' name='fname' required='true') 
+    div.form-group
+      label(for='lname') Last Name:
+      input#title.form-control(type='text' placeholder='lname' name='lname' required='true') 
+    button.btn.btn-primary(type='submit') Create Account
+
+    a(href='/google') login with google
+    a(href='/facebook') login with facebook
+
+    if errors 
+      ul
+        for error in errors
+          li!= error.msg
+
+

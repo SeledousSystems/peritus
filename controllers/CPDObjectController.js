@@ -121,7 +121,8 @@ exports.cpd_create_post = [
             title: req.body.title,
             twaves: req.body.twaves,
             date_commenced: req.body.date_commenced,
-            date_completed: req.body,date_completed,
+            date_completed: req.body,
+            date_completed,
             status: req.body.status,
             notes: req.body.notes
         });
@@ -169,3 +170,74 @@ exports.cpd_create_post = [
         }
     }
 ];
+
+exports.user_create_get = function (req, res, next) {
+
+    res.render('createUser', {
+        title: 'Create a Peretus account',
+    });
+}
+
+exports.user_create_post = function (req, res, next) {
+
+    console.log("validating"),
+        // Validate fields.
+        body('email', 'Title must not be empty.').isLength({
+            min: 1
+        }).trim(),
+        body('fname', 'First Name must not be empty.').isLength({
+            min: 1
+        }).trim(),
+        body('lname', 'Last Name must not be empty.').isLength({
+            min: 1
+        }).trim(),
+
+        console.log("validated"),
+        //do something else if validating with FB or google or github
+
+        // Sanitize fields (using wildcard).
+        sanitizeBody('*').escape(),
+
+        console.log("sanitised"),
+
+        // Process request after validation and sanitization.
+
+        console.log("processing");
+    // Extract the validation errors from a request.
+    const errors = validationResult(req);
+    console.log("errors");
+    // Create a user object with escaped and trimmed data.
+    var user = new User({
+        email: req.body.email,
+        fname: req.body.fname,
+        lname: req.body.lname,
+    });
+
+    console.log(user);
+
+    if (!errors.isEmpty()) {
+        // There are errors. Render form again with sanitized values/error messages.
+
+        res.render('createUser', {
+            title: 'Create a Peretus account',
+        });
+        console.log(errors);
+        return;
+
+    } else {
+        // Data from form is valid. Save user
+        user.save(function (err) {
+            if (err) {
+                return next(err);
+            }
+            console.log('user.id');
+            console.log(user.id);
+            //successful - redirect to user main page (cookies?).
+            res.render('index', {
+                title: 'Welcome to Peretus',
+                user: user.id
+            });
+        });
+    }
+
+};
