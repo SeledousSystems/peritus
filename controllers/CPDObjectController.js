@@ -81,17 +81,6 @@ exports.cpd_create_get = function (req, res, next) {
 
 // Handle CPD create on POST.
 exports.cpd_create_post = [
-    // Convert the genre to an array.
-    (req, res, next) => {
-        if (!(req.body.genre instanceof Array)) {
-            if (typeof req.body.genre === 'undefined')
-                req.body.genre = [];
-            else
-                req.body.genre = new Array(req.body.genre);
-        }
-        next();
-    },
-
     // Validate fields.
     body('title', 'Title must not be empty.').isLength({
         min: 1
@@ -116,63 +105,46 @@ exports.cpd_create_post = [
         // Extract the validation errors from a request.
         const errors = validationResult(req);
 
-        // Create a Book object with escaped and trimmed data.
-        var book = new CPDActivity({
+        // Create a CPD Activity object with escaped and trimmed data.
+        var activity = new CPDObject({
             title: req.body.title,
             twaves: req.body.twaves,
             date_commenced: req.body.date_commenced,
-            date_completed: req.body,
-            date_completed,
+            date_completed: req.body.date_completed,
             status: req.body.status,
             notes: req.body.notes
         });
 
         if (!errors.isEmpty()) {
             // There are errors. Render form again with sanitized values/error messages.
-
-            // Get all authors and genres for form.
-            async.parallel({
-                authors: function (callback) {
-                    Author.find(callback);
-                },
-                genres: function (callback) {
-                    Genre.find(callback);
-                },
-            }, function (err, results) {
-                if (err) {
-                    return next(err);
-                }
-
-                // Mark our selected genres as checked.
-                for (let i = 0; i < results.genres.length; i++) {
-                    if (book.genre.indexOf(results.genres[i]._id) > -1) {
-                        results.genres[i].checked = 'true';
-                    }
-                }
-                res.render('book_form', {
-                    title: 'Create Book',
-                    authors: results.authors,
-                    genres: results.genres,
-                    book: book,
-                    errors: errors.array()
-                });
+            //in the view need to fill in fields and display errors so user can correct
+            res.render('createCPD', {
+                title: 'Create CPD Actvitiy',
+                CPDactivity: activity,
+                errors: errors.array()
             });
+
             return;
         } else {
-            // Data from form is valid. Save book.
-            book.save(function (err) {
+            // Data from form is valid. Save the activity
+            activity.save(function (err) {
                 if (err) {
                     return next(err);
                 }
-                //successful - redirect to new book record.
-                res.redirect(book.url);
+                //save the activty against the users array
+                user.CPDObjects.push(activity);
+
+                //successful - redirect to home page record.
+                res.render('index', {
+                    title: 'Welcome to Peterus',
+                    user: user
+                });
             });
         }
     }
 ];
 
 exports.user_create_get = function (req, res, next) {
-
     res.render('createUser', {
         title: 'Create a Peretus account',
     });
@@ -205,7 +177,7 @@ exports.user_create_post = function (req, res, next) {
         console.log("processing");
     // Extract the validation errors from a request.
     const errors = validationResult(req);
-    console.log("errors");
+
     // Create a user object with escaped and trimmed data.
     var user = new User({
         email: req.body.email,
@@ -217,9 +189,12 @@ exports.user_create_post = function (req, res, next) {
 
     if (!errors.isEmpty()) {
         // There are errors. Render form again with sanitized values/error messages.
-
+        console.log("errors");
         res.render('createUser', {
             title: 'Create a Peretus account',
+            email: req.body.email,
+            fname: req.body.fname,
+            lname: req.body.lname,
         });
         console.log(errors);
         return;
@@ -235,7 +210,7 @@ exports.user_create_post = function (req, res, next) {
             //successful - redirect to user main page (cookies?).
             res.render('index', {
                 title: 'Welcome to Peretus',
-                user: user.id
+                user: user
             });
         });
     }

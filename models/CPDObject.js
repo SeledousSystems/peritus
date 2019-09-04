@@ -19,9 +19,6 @@ var CPDPObjectSchema = new Schema({
         type: String,
         enum: ['Planning', 'In-Work', 'completed', 'On-Hold']
     },
-    date_attended: {
-        type: Date
-    },
     CPD_type: {
         type: String,
         enum: ['Training', 'Work', 'Accademic', 'Volunteering', 'Events', 'Self-Study']
@@ -33,7 +30,6 @@ var CPDPObjectSchema = new Schema({
         type: Number
     }
 })
-
 
 
 //Export model
